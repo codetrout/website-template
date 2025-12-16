@@ -2,6 +2,7 @@
 interface Service {
   name: string;
   description: string;
+  image_url?: string;
 }
 
 interface Props {
@@ -17,9 +18,16 @@ const { services, template = 'classic' } = Astro.props;
     <h2 class="section-title">Our Services</h2>
     <div class:list={['services-grid', `services-grid--${template}`]}>
       {services.map((service) => (
-        <div class="service-item">
-          <h3 class="service-name">{service.name}</h3>
-          <p class="service-description">{service.description}</p>
+        <div class:list={['service-item', service.image_url && 'service-item--with-image']}>
+          {service.image_url && (
+            <div class="service-image">
+              <img src={service.image_url} alt={service.name} loading="lazy" />
+            </div>
+          )}
+          <div class="service-content">
+            <h3 class="service-name">{service.name}</h3>
+            <p class="service-description">{service.description}</p>
+          </div>
         </div>
       ))}
     </div>
@@ -68,6 +76,27 @@ const { services, template = 'classic' } = Astro.props;
     border-bottom: none;
   }
 
+  /* Classic with image - horizontal layout */
+  .services--classic .service-item--with-image {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .services--classic .service-image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 90px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .services--classic .service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .services--classic .service-name {
     font-size: 1.25rem;
     color: var(--color-gray-900);
@@ -87,16 +116,42 @@ const { services, template = 'classic' } = Astro.props;
 
   .services--bold .service-item {
     background-color: var(--color-white);
-    padding: 2rem;
     border-radius: 0.75rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     border-left: 4px solid var(--color-orange);
+    overflow: hidden;
   }
 
   .services--bold .service-item:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Bold with image */
+  .services--bold .service-image {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+  }
+
+  .services--bold .service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .services--bold .service-item:hover .service-image img {
+    transform: scale(1.05);
+  }
+
+  .services--bold .service-content {
+    padding: 1.5rem;
+  }
+
+  .services--bold .service-item:not(.service-item--with-image) .service-content {
+    padding: 2rem;
   }
 
   .services--bold .service-name {
@@ -117,6 +172,15 @@ const { services, template = 'classic' } = Astro.props;
 
     .services-grid--bold {
       grid-template-columns: 1fr;
+    }
+
+    .services--classic .service-item--with-image {
+      flex-direction: column;
+    }
+
+    .services--classic .service-image {
+      width: 100%;
+      height: 180px;
     }
   }
 </style>

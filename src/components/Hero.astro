@@ -5,12 +5,16 @@ interface Props {
   ctaText: string;
   phone: string;
   template?: 'classic' | 'bold';
+  heroImageUrl?: string;
 }
 
-const { companyName, tagline, ctaText, phone, template = 'classic' } = Astro.props;
+const { companyName, tagline, ctaText, phone, template = 'classic', heroImageUrl } = Astro.props;
+
+// Build inline style for background image
+const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImageUrl}); background-size: cover; background-position: center;` : '';
 ---
 
-<section class:list={['hero', `hero--${template}`]}>
+<section class:list={['hero', `hero--${template}`, heroImageUrl && 'hero--with-image']} style={heroStyle}>
   <div class="container">
     <div class="hero-content">
       <h1 class="hero-title">{companyName}</h1>
@@ -38,6 +42,29 @@ const { companyName, tagline, ctaText, phone, template = 'classic' } = Astro.pro
   .hero--bold {
     background: var(--hero-bg);
     padding: 8rem 0;
+  }
+
+  /* When hero has a background image */
+  .hero--with-image {
+    background-color: transparent;
+    padding: 10rem 0;
+  }
+
+  .hero--with-image .hero-title,
+  .hero--with-image .hero-tagline {
+    color: var(--color-white);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero--with-image .btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--color-white);
+    color: var(--color-white);
+  }
+
+  .hero--with-image .btn-secondary:hover {
+    background-color: var(--color-white);
+    color: var(--color-navy);
   }
 
   .hero-content {
@@ -111,6 +138,10 @@ const { companyName, tagline, ctaText, phone, template = 'classic' } = Astro.pro
     .hero-actions .btn {
       width: 100%;
       max-width: 280px;
+    }
+
+    .hero--with-image {
+      padding: 6rem 0;
     }
   }
 </style>

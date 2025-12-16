@@ -19,7 +19,9 @@ const {
   address,
   services,
   about,
-  cta_text
+  cta_text,
+  hero_image_url,
+  about_image_url
 } = data;
 
 // Generate meta description from about text
@@ -35,9 +37,15 @@ const metaDescription = about.substring(0, 160) + (about.length > 160 ? '...' : 
       ctaText={cta_text}
       phone={phone}
       template={template}
+      heroImageUrl={hero_image_url}
     />
     <Services services={services} template={template} />
-    <About about={about} companyName={company_name} template={template} />
+    <About
+      about={about}
+      companyName={company_name}
+      template={template}
+      aboutImageUrl={about_image_url}
+    />
     <Contact
       phone={phone}
       email={email}

@@ -3,32 +3,39 @@ interface Props {
   about: string;
   companyName: string;
   template?: 'classic' | 'bold';
+  aboutImageUrl?: string;
 }
 
-const { about, companyName, template = 'classic' } = Astro.props;
+const { about, companyName, template = 'classic', aboutImageUrl } = Astro.props;
 ---
 
 <section id="about" class:list={['about', `about--${template}`]}>
   <div class="container">
-    <div class:list={['about-content', `about-content--${template}`]}>
+    <div class:list={['about-content', `about-content--${template}`, aboutImageUrl && 'about-content--with-image']}>
       <div class="about-text">
         <h2 class="section-title">About {companyName}</h2>
         <p class="about-description">{about}</p>
       </div>
-      <div class="about-features">
-        <div class="feature">
-          <span class="feature-icon">✓</span>
-          <span class="feature-text">Licensed & Insured</span>
+      {aboutImageUrl ? (
+        <div class="about-image">
+          <img src={aboutImageUrl} alt={`About ${companyName}`} loading="lazy" />
         </div>
-        <div class="feature">
-          <span class="feature-icon">✓</span>
-          <span class="feature-text">Free Estimates</span>
+      ) : (
+        <div class="about-features">
+          <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span class="feature-text">Licensed & Insured</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span class="feature-text">Free Estimates</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">✓</span>
+            <span class="feature-text">Satisfaction Guaranteed</span>
+          </div>
         </div>
-        <div class="feature">
-          <span class="feature-icon">✓</span>
-          <span class="feature-text">Satisfaction Guaranteed</span>
-        </div>
-      </div>
+      )}
     </div>
   </div>
 </section>
@@ -63,11 +70,25 @@ const { about, companyName, template = 'classic' } = Astro.props;
     text-align: center;
   }
 
+  /* Classic with image - side by side */
+  .about-content--classic.about-content--with-image {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1000px;
+    text-align: left;
+    align-items: center;
+  }
+
   .about--classic .about-description {
     color: var(--color-gray-600);
     font-size: 1.125rem;
     line-height: 1.8;
     margin-bottom: 2rem;
+  }
+
+  .about--classic .about-content--with-image .about-description {
+    margin-bottom: 0;
   }
 
   .about--classic .about-features {
@@ -93,6 +114,24 @@ const { about, companyName, template = 'classic' } = Astro.props;
     color: var(--color-gray-700);
   }
 
+  /* About image styles */
+  .about-image {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+  }
+
+  .about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about--classic .about-image {
+    height: 300px;
+  }
+
   /* Bold: Side-by-side layout */
   .about-content--bold {
     display: grid;
@@ -105,6 +144,10 @@ const { about, companyName, template = 'classic' } = Astro.props;
     color: var(--color-gray-600);
     font-size: 1.125rem;
     line-height: 1.8;
+  }
+
+  .about--bold .about-image {
+    height: 350px;
   }
 
   .about--bold .about-features {
@@ -146,7 +189,8 @@ const { about, companyName, template = 'classic' } = Astro.props;
       font-size: 1.75rem;
     }
 
-    .about-content--bold {
+    .about-content--bold,
+    .about-content--classic.about-content--with-image {
       grid-template-columns: 1fr;
       gap: 2rem;
     }
@@ -154,6 +198,10 @@ const { about, companyName, template = 'classic' } = Astro.props;
     .about--classic .about-features {
       flex-direction: column;
       gap: 1rem;
+    }
+
+    .about-image {
+      height: 250px !important;
     }
   }
 </style>
