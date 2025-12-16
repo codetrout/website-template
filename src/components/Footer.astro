@@ -1,0 +1,85 @@
+---
+interface Props {
+  companyName: string;
+  template?: 'classic' | 'bold';
+}
+
+const { companyName, template = 'classic' } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class:list={['footer', `footer--${template}`]}>
+  <div class="container">
+    <div class="footer-content">
+      <p class="copyright">
+        &copy; {currentYear} {companyName}. All rights reserved.
+      </p>
+      <p class="powered-by">
+        Powered by <a href="https://tightcraft.com" target="_blank" rel="noopener">Tightcraft</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 2rem 0;
+  }
+
+  .footer--classic {
+    background-color: var(--color-gray-100);
+    border-top: 1px solid var(--color-gray-200);
+  }
+
+  .footer--bold {
+    background-color: var(--color-gray-900);
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.875rem;
+  }
+
+  .footer--classic .copyright {
+    color: var(--color-gray-600);
+  }
+
+  .footer--bold .copyright {
+    color: var(--color-gray-400);
+  }
+
+  .powered-by {
+    font-size: 0.875rem;
+  }
+
+  .footer--classic .powered-by {
+    color: var(--color-gray-500);
+  }
+
+  .footer--bold .powered-by {
+    color: var(--color-gray-500);
+  }
+
+  .powered-by a {
+    color: var(--color-orange);
+    font-weight: 500;
+  }
+
+  .powered-by a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

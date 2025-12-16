@@ -1,0 +1,122 @@
+---
+interface Service {
+  name: string;
+  description: string;
+}
+
+interface Props {
+  services: Service[];
+  template?: 'classic' | 'bold';
+}
+
+const { services, template = 'classic' } = Astro.props;
+---
+
+<section id="services" class:list={['services', `services--${template}`]}>
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <div class:list={['services-grid', `services-grid--${template}`]}>
+      {services.map((service) => (
+        <div class="service-item">
+          <h3 class="service-name">{service.name}</h3>
+          <p class="service-description">{service.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: 5rem 0;
+  }
+
+  .services--classic {
+    background-color: var(--color-white);
+  }
+
+  .services--bold {
+    background-color: var(--color-gray-50);
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.25rem;
+    margin-bottom: 3rem;
+    color: var(--color-gray-900);
+  }
+
+  .services--bold .section-title {
+    color: var(--color-navy);
+  }
+
+  /* Classic: Vertical list layout */
+  .services-grid--classic {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .services--classic .service-item {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .services--classic .service-item:last-child {
+    border-bottom: none;
+  }
+
+  .services--classic .service-name {
+    font-size: 1.25rem;
+    color: var(--color-gray-900);
+    margin-bottom: 0.5rem;
+  }
+
+  .services--classic .service-description {
+    color: var(--color-gray-600);
+  }
+
+  /* Bold: Card grid layout */
+  .services-grid--bold {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .services--bold .service-item {
+    background-color: var(--color-white);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--color-orange);
+  }
+
+  .services--bold .service-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+
+  .services--bold .service-name {
+    font-size: 1.25rem;
+    color: var(--color-navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .services--bold .service-description {
+    color: var(--color-gray-600);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .services-grid--bold {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

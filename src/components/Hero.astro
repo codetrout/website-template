@@ -1,0 +1,116 @@
+---
+interface Props {
+  companyName: string;
+  tagline: string;
+  ctaText: string;
+  phone: string;
+  template?: 'classic' | 'bold';
+}
+
+const { companyName, tagline, ctaText, phone, template = 'classic' } = Astro.props;
+---
+
+<section class:list={['hero', `hero--${template}`]}>
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">{companyName}</h1>
+      <p class="hero-tagline">{tagline}</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">{ctaText}</a>
+        <a href={`tel:${phone.replace(/\D/g, '')}`} class="btn btn-secondary">
+          Call {phone}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 6rem 0;
+    text-align: center;
+  }
+
+  .hero--classic {
+    background-color: var(--color-gray-50);
+  }
+
+  .hero--bold {
+    background: var(--hero-bg);
+    padding: 8rem 0;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero--classic .hero-title {
+    color: var(--color-gray-900);
+  }
+
+  .hero--bold .hero-title {
+    color: var(--color-white);
+    font-size: 3.5rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero--classic .hero-tagline {
+    color: var(--color-gray-600);
+  }
+
+  .hero--bold .hero-tagline {
+    color: var(--color-gray-200);
+    font-size: 1.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero--bold .btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--color-white);
+  }
+
+  .hero--bold .btn-secondary:hover {
+    background-color: var(--color-white);
+    color: var(--color-navy);
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero--bold .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.125rem;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+</style>

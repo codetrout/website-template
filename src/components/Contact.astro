@@ -1,0 +1,205 @@
+---
+interface Props {
+  phone: string;
+  email: string;
+  address: string;
+  ctaText: string;
+  template?: 'classic' | 'bold';
+}
+
+const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
+---
+
+<section id="contact" class:list={['contact', `contact--${template}`]}>
+  <div class="container">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="contact-subtitle">Ready to start your project? Contact us today for a free estimate.</p>
+
+    <div class:list={['contact-content', `contact-content--${template}`]}>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="contact-icon">📞</span>
+          <div class="contact-details">
+            <span class="contact-label">Phone</span>
+            <a href={`tel:${phone.replace(/\D/g, '')}`} class="contact-value">{phone}</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">✉️</span>
+          <div class="contact-details">
+            <span class="contact-label">Email</span>
+            <a href={`mailto:${email}`} class="contact-value">{email}</a>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <div class="contact-details">
+            <span class="contact-label">Address</span>
+            <span class="contact-value">{address}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-cta">
+        <a href={`tel:${phone.replace(/\D/g, '')}`} class="btn btn-primary btn-large">
+          {ctaText}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding: 5rem 0;
+  }
+
+  .contact--classic {
+    background-color: var(--color-white);
+  }
+
+  .contact--bold {
+    background: linear-gradient(135deg, var(--color-navy) 0%, #2D4A6A 100%);
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact--classic .section-title {
+    color: var(--color-gray-900);
+  }
+
+  .contact--bold .section-title {
+    color: var(--color-white);
+  }
+
+  .contact-subtitle {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .contact--classic .contact-subtitle {
+    color: var(--color-gray-600);
+  }
+
+  .contact--bold .contact-subtitle {
+    color: var(--color-gray-300);
+  }
+
+  /* Classic layout */
+  .contact-content--classic {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact--classic .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact--classic .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--color-gray-50);
+    border-radius: 0.5rem;
+  }
+
+  .contact--classic .contact-icon {
+    font-size: 1.5rem;
+  }
+
+  .contact--classic .contact-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: 0.25rem;
+  }
+
+  .contact--classic .contact-value {
+    font-weight: 600;
+    color: var(--color-gray-900);
+  }
+
+  .contact--classic .contact-value:hover {
+    color: var(--color-orange);
+  }
+
+  /* Bold layout */
+  .contact-content--bold {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--color-white);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .contact--bold .contact-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact--bold .contact-item {
+    text-align: center;
+  }
+
+  .contact--bold .contact-icon {
+    display: block;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .contact--bold .contact-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact--bold .contact-value {
+    font-weight: 600;
+    color: var(--color-navy);
+    font-size: 1.125rem;
+  }
+
+  .contact--bold .contact-value:hover {
+    color: var(--color-orange);
+  }
+
+  .contact-cta {
+    text-align: center;
+  }
+
+  .btn-large {
+    padding: 1.125rem 3rem;
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .contact--bold .contact-info {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .contact-content--bold {
+      padding: 2rem;
+    }
+  }
+</style>

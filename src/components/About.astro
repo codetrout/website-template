@@ -1,0 +1,159 @@
+---
+interface Props {
+  about: string;
+  companyName: string;
+  template?: 'classic' | 'bold';
+}
+
+const { about, companyName, template = 'classic' } = Astro.props;
+---
+
+<section id="about" class:list={['about', `about--${template}`]}>
+  <div class="container">
+    <div class:list={['about-content', `about-content--${template}`]}>
+      <div class="about-text">
+        <h2 class="section-title">About {companyName}</h2>
+        <p class="about-description">{about}</p>
+      </div>
+      <div class="about-features">
+        <div class="feature">
+          <span class="feature-icon">✓</span>
+          <span class="feature-text">Licensed & Insured</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">✓</span>
+          <span class="feature-text">Free Estimates</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">✓</span>
+          <span class="feature-text">Satisfaction Guaranteed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    padding: 5rem 0;
+  }
+
+  .about--classic {
+    background-color: var(--color-gray-50);
+  }
+
+  .about--bold {
+    background-color: var(--color-white);
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-gray-900);
+  }
+
+  .about--bold .section-title {
+    color: var(--color-navy);
+  }
+
+  /* Classic: Centered, stacked layout */
+  .about-content--classic {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about--classic .about-description {
+    color: var(--color-gray-600);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+
+  .about--classic .about-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .about--classic .feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .about--classic .feature-icon {
+    color: var(--color-orange);
+    font-weight: bold;
+  }
+
+  .about--classic .feature-text {
+    font-weight: 500;
+    color: var(--color-gray-700);
+  }
+
+  /* Bold: Side-by-side layout */
+  .about-content--bold {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about--bold .about-description {
+    color: var(--color-gray-600);
+    font-size: 1.125rem;
+    line-height: 1.8;
+  }
+
+  .about--bold .about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about--bold .feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    background-color: var(--color-gray-50);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--color-orange);
+  }
+
+  .about--bold .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-orange);
+    color: var(--color-white);
+    border-radius: 50%;
+    font-size: 0.875rem;
+    font-weight: bold;
+  }
+
+  .about--bold .feature-text {
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .about-content--bold {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about--classic .about-features {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>
