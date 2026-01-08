@@ -1,7 +1,7 @@
 ---
 interface Props {
   companyName: string;
-  template?: 'classic' | 'bold';
+  template?: 'classic' | 'bold' | 'modern';
 }
 
 const { companyName, template = 'classic' } = Astro.props;
@@ -35,6 +35,12 @@ const currentYear = new Date().getFullYear();
     background-color: var(--color-gray-900);
   }
 
+  .footer--modern {
+    background-color: var(--color-black);
+    border-top: 1px solid var(--color-gray-800);
+    padding: 2.5rem 0;
+  }
+
   .footer-content {
     display: flex;
     justify-content: space-between;
@@ -55,6 +61,13 @@ const currentYear = new Date().getFullYear();
     color: var(--color-gray-400);
   }
 
+  .footer--modern .copyright {
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+  }
+
   .powered-by {
     font-size: 0.875rem;
   }
@@ -65,6 +78,13 @@ const currentYear = new Date().getFullYear();
 
   .footer--bold .powered-by {
     color: var(--color-gray-500);
+  }
+
+  .footer--modern .powered-by {
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
   }
 
   .powered-by a {

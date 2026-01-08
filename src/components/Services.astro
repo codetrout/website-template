@@ -7,7 +7,7 @@ interface Service {
 
 interface Props {
   services: Service[];
-  template?: 'classic' | 'bold';
+  template?: 'classic' | 'bold' | 'modern';
 }
 
 const { services, template = 'classic' } = Astro.props;
@@ -15,16 +15,18 @@ const { services, template = 'classic' } = Astro.props;
 
 <section id="services" class:list={['services', `services--${template}`]}>
   <div class="container">
+    {template === 'modern' && <span class="section-label">What We Do</span>}
     <h2 class="section-title">Our Services</h2>
     <div class:list={['services-grid', `services-grid--${template}`]}>
-      {services.map((service) => (
-        <div class:list={['service-item', service.image_url && 'service-item--with-image']}>
+      {services.map((service, index) => (
+        <div class:list={['service-item', service.image_url && 'service-item--with-image']} data-index={index}>
           {service.image_url && (
             <div class="service-image">
               <img src={service.image_url} alt={service.name} loading="lazy" />
             </div>
           )}
           <div class="service-content">
+            {template === 'modern' && <span class="service-number">{String(index + 1).padStart(2, '0')}</span>}
             <h3 class="service-name">{service.name}</h3>
             <p class="service-description">{service.description}</p>
           </div>
@@ -47,6 +49,22 @@ const { services, template = 'classic' } = Astro.props;
     background-color: var(--color-gray-50);
   }
 
+  .services--modern {
+    background-color: var(--color-gray-50);
+    padding: 7rem 0;
+  }
+
+  .section-label {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
   .section-title {
     text-align: center;
     font-size: 2.25rem;
@@ -56,6 +74,13 @@ const { services, template = 'classic' } = Astro.props;
 
   .services--bold .section-title {
     color: var(--color-navy);
+  }
+
+  .services--modern .section-title {
+    color: var(--color-black);
+    font-size: 2.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 4rem;
   }
 
   /* Classic: Vertical list layout */
@@ -165,6 +190,90 @@ const { services, template = 'classic' } = Astro.props;
     font-size: 0.95rem;
   }
 
+  /* Modern: Alternating layout */
+  .services-grid--modern {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .services--modern .service-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--color-gray-200);
+    align-items: center;
+  }
+
+  .services--modern .service-item:last-child {
+    border-bottom: none;
+  }
+
+  .services--modern .service-item:nth-child(even) {
+    direction: rtl;
+  }
+
+  .services--modern .service-item:nth-child(even) > * {
+    direction: ltr;
+  }
+
+  .services--modern .service-content {
+    padding: 0;
+  }
+
+  .services--modern .service-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-gray-200);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .services--modern .service-name {
+    font-size: 1.75rem;
+    color: var(--color-black);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .services--modern .service-description {
+    color: var(--color-gray-600);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  .services--modern .service-image {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    background-color: var(--color-gray-200);
+  }
+
+  .services--modern .service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .services--modern .service-item:hover .service-image img {
+    transform: scale(1.03);
+  }
+
+  /* Modern without image - add visual interest */
+  .services--modern .service-item:not(.service-item--with-image) {
+    grid-template-columns: 1fr;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .services--modern .service-item:not(.service-item--with-image):nth-child(even) {
+    direction: ltr;
+  }
+
   @media (max-width: 768px) {
     .section-title {
       font-size: 1.75rem;
@@ -181,6 +290,28 @@ const { services, template = 'classic' } = Astro.props;
     .services--classic .service-image {
       width: 100%;
       height: 180px;
+    }
+
+    .services--modern .service-item {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+
+    .services--modern .service-item:nth-child(even) {
+      direction: ltr;
+    }
+
+    .services--modern .service-image {
+      height: 220px;
+    }
+
+    .services--modern .service-number {
+      font-size: 2rem;
+    }
+
+    .services--modern .service-name {
+      font-size: 1.5rem;
     }
   }
 </style>

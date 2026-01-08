@@ -4,7 +4,7 @@ interface Props {
   tagline: string;
   ctaText: string;
   phone: string;
-  template?: 'classic' | 'bold';
+  template?: 'classic' | 'bold' | 'modern';
   heroImageUrl?: string;
 }
 
@@ -17,6 +17,7 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
 <section class:list={['hero', `hero--${template}`, heroImageUrl && 'hero--with-image']} style={heroStyle}>
   <div class="container">
     <div class="hero-content">
+      {template === 'modern' && <span class="hero-label">Welcome to</span>}
       <h1 class="hero-title">{companyName}</h1>
       <p class="hero-tagline">{tagline}</p>
       <div class="hero-actions">
@@ -26,6 +27,11 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
         </a>
       </div>
     </div>
+    {template === 'modern' && !heroImageUrl && (
+      <div class="hero-decoration">
+        <div class="decoration-box"></div>
+      </div>
+    )}
   </div>
 </section>
 
@@ -44,10 +50,26 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
     padding: 8rem 0;
   }
 
+  .hero--modern {
+    background-color: var(--color-white);
+    padding: 8rem 0 10rem;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero--modern .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+  }
+
   /* When hero has a background image */
   .hero--with-image {
     background-color: transparent;
     padding: 10rem 0;
+    text-align: center;
   }
 
   .hero--with-image .hero-title,
@@ -67,9 +89,36 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
     color: var(--color-navy);
   }
 
+  .hero--modern.hero--with-image {
+    text-align: center;
+  }
+
+  .hero--modern.hero--with-image .container {
+    display: block;
+  }
+
+  .hero--modern.hero--with-image .hero-decoration {
+    display: none;
+  }
+
   .hero-content {
     max-width: 800px;
     margin: 0 auto;
+  }
+
+  .hero--modern .hero-content {
+    max-width: none;
+    margin: 0;
+  }
+
+  .hero-label {
+    display: block;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+    margin-bottom: 1rem;
+    font-weight: 600;
   }
 
   .hero-title {
@@ -86,6 +135,15 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
     font-size: 3.5rem;
   }
 
+  .hero--modern .hero-title {
+    color: var(--color-black);
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
   .hero-tagline {
     font-size: 1.25rem;
     margin-bottom: 2rem;
@@ -100,11 +158,23 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
     font-size: 1.5rem;
   }
 
+  .hero--modern .hero-tagline {
+    color: var(--color-gray-600);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 500px;
+  }
+
   .hero-actions {
     display: flex;
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  .hero--modern .hero-actions {
+    justify-content: flex-start;
   }
 
   .hero--bold .btn-secondary {
@@ -117,12 +187,43 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
     color: var(--color-navy);
   }
 
+  /* Modern decoration */
+  .hero-decoration {
+    position: relative;
+    height: 400px;
+  }
+
+  .decoration-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--color-orange) 0%, #EA580C 100%);
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .decoration-box::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    bottom: 20px;
+    left: 40px;
+    border: 2px solid var(--color-white);
+    opacity: 0.3;
+  }
+
   @media (max-width: 768px) {
     .hero-title {
       font-size: 2rem;
     }
 
     .hero--bold .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero--modern .hero-title {
       font-size: 2.5rem;
     }
 
@@ -135,6 +236,10 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
       align-items: center;
     }
 
+    .hero--modern .hero-actions {
+      align-items: stretch;
+    }
+
     .hero-actions .btn {
       width: 100%;
       max-width: 280px;
@@ -142,6 +247,33 @@ const heroStyle = heroImageUrl ? `background-image: linear-gradient(rgba(0,0,0,0
 
     .hero--with-image {
       padding: 6rem 0;
+    }
+
+    .hero--modern {
+      text-align: center;
+      padding: 5rem 0;
+    }
+
+    .hero--modern .container {
+      display: block;
+    }
+
+    .hero--modern .hero-content {
+      margin: 0 auto;
+    }
+
+    .hero--modern .hero-tagline {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero--modern .hero-actions {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-decoration {
+      display: none;
     }
   }
 </style>

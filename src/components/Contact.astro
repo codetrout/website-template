@@ -4,7 +4,7 @@ interface Props {
   email: string;
   address: string;
   ctaText: string;
-  template?: 'classic' | 'bold';
+  template?: 'classic' | 'bold' | 'modern';
 }
 
 const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
@@ -12,6 +12,7 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
 
 <section id="contact" class:list={['contact', `contact--${template}`]}>
   <div class="container">
+    {template === 'modern' && <span class="section-label">Get Started</span>}
     <h2 class="section-title">Get In Touch</h2>
     <p class="contact-subtitle">Ready to start your project? Contact us today for a free estimate.</p>
 
@@ -64,6 +65,22 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
     background: linear-gradient(135deg, var(--color-navy) 0%, #2D4A6A 100%);
   }
 
+  .contact--modern {
+    background-color: var(--color-black);
+    padding: 7rem 0;
+  }
+
+  .section-label {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-orange);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
   .section-title {
     text-align: center;
     font-size: 2.25rem;
@@ -78,6 +95,12 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
     color: var(--color-white);
   }
 
+  .contact--modern .section-title {
+    color: var(--color-white);
+    font-size: 2.5rem;
+    letter-spacing: -0.02em;
+  }
+
   .contact-subtitle {
     text-align: center;
     margin-bottom: 3rem;
@@ -89,6 +112,11 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
 
   .contact--bold .contact-subtitle {
     color: var(--color-gray-300);
+  }
+
+  .contact--modern .contact-subtitle {
+    color: var(--color-gray-400);
+    font-size: 1.125rem;
   }
 
   /* Classic layout */
@@ -179,6 +207,55 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
     color: var(--color-orange);
   }
 
+  /* Modern layout */
+  .contact-content--modern {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .contact--modern .contact-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .contact--modern .contact-item {
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid var(--color-gray-800);
+    transition: border-color 0.2s;
+  }
+
+  .contact--modern .contact-item:hover {
+    border-color: var(--color-orange);
+  }
+
+  .contact--modern .contact-icon {
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact--modern .contact-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact--modern .contact-value {
+    font-weight: 500;
+    color: var(--color-white);
+    font-size: 1.125rem;
+  }
+
+  .contact--modern .contact-value:hover {
+    color: var(--color-orange);
+  }
+
   .contact-cta {
     text-align: center;
   }
@@ -188,18 +265,27 @@ const { phone, email, address, ctaText, template = 'classic' } = Astro.props;
     font-size: 1.125rem;
   }
 
+  .contact--modern .btn-large {
+    padding: 1.25rem 4rem;
+  }
+
   @media (max-width: 768px) {
     .section-title {
       font-size: 1.75rem;
     }
 
-    .contact--bold .contact-info {
+    .contact--bold .contact-info,
+    .contact--modern .contact-info {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
 
     .contact-content--bold {
       padding: 2rem;
+    }
+
+    .contact--modern .contact-item {
+      padding: 1.5rem;
     }
   }
 </style>
